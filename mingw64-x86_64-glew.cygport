@@ -1,5 +1,8 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross
+
 NAME="mingw64-x86_64-glew"
-VERSION=1.9.0
+VERSION=1.10.0
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="OpenGL Extension Wrangler library for Win64 toolchain"
@@ -11,8 +14,6 @@ HOMEPAGE="http://glew.sourceforge.net/"
 SRC_URI="mirror://sourceforge/glew/glew-${VERSION}.tgz"
 SRC_DIR="glew-${VERSION}"
 PATCH_URI="1.7.0-no-strip.patch"
-CROSS_HOST="x86_64-w64-mingw32"
-inherit cross
 
 src_compile() {
 	lndirs
