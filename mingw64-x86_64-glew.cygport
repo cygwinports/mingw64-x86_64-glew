@@ -2,8 +2,8 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-glew"
-VERSION=1.10.0
-RELEASE=2
+VERSION=1.11.0
+RELEASE=1
 CATEGORY="Devel"
 SUMMARY="OpenGL Extension Wrangler library for Win64 toolchain"
 DESCRIPTION="This package does NOT contain cygwin binaries.  Instead, it
@@ -13,19 +13,19 @@ mingw64-x86_64-gcc cross compiler, and installs into the
 HOMEPAGE="http://glew.sourceforge.net/"
 SRC_URI="mirror://sourceforge/glew/glew-${VERSION}.tgz"
 SRC_DIR="glew-${VERSION}"
-PATCH_URI="
-	1.7.0-no-strip.patch
-	1.10.0-mingw-pkgconfig.patch
-"
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all SYSTEM=mingw CC=${CC} LD=${CC} AR=${CROSS_HOST}-ar STRIP=: GLEW_DEST=${CROSS_PREFIX}
+	cygmake all SYSTEM=mingw LIBGLU= \
+		CC=${CC} LD=${CC} AR=${AR} STRIP=: GLEW_PREFIX=${CROSS_PREFIX}
 }
 
 src_install() {
 	cd ${B}
-	cygmake install.all SYSTEM=mingw GLEW_DEST=${D}${CROSS_PREFIX}
-	sed -e "s|${D}||g" -i ${D}${CROSS_LIBDIR}/pkgconfig/*
+	dobin bin/*.exe lib/*.dll
+	dolib lib/*.dll.a
+	dopkgconfig *.pc
+	includeinto GL
+	doinclude include/GL/{,w}glew.h
 }
