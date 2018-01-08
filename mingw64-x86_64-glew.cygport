@@ -2,7 +2,7 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-glew"
-VERSION=1.13.0
+VERSION=2.1.0
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="OpenGL Extension Wrangler library for Win64 toolchain"
@@ -17,7 +17,9 @@ SRC_DIR="glew-${VERSION}"
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all SYSTEM=mingw LIBGLU= \
+	cygmake glew.lib SYSTEM=mingw LIBGLU= \
+		CC=${CC} LD=${CC} AR=${AR} STRIP=: GLEW_PREFIX=${CROSS_PREFIX}
+	cygmake glew.bin SYSTEM=mingw LDFLAGS.EXTRA= LIBGLU= \
 		CC=${CC} LD=${CC} AR=${AR} STRIP=: GLEW_PREFIX=${CROSS_PREFIX}
 }
 
